@@ -108,13 +108,15 @@ figcaption {
 }
 
 .project-end {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
   border-top: 1px solid var(--border);
   padding-top: 32px;
 }
 
 .project-end a {
   display: inline-block;
-  margin-top: 16px;
   font-size: var(--font-heading);
 }
 

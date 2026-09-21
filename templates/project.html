@@ -6,7 +6,7 @@
   {{ project.summary }}
 {% endblock %}
 {% block styles %}
-  <link rel="stylesheet" href="/static/css/pages/project.css">
+  <link rel="stylesheet" href="/static/css/pages/project.css?v=2">
 {% endblock %}
 {% block content %}
   <article class="container project-page" data-pet-project="{{ project.pet.model_dump()|tojson|forceescape }}">
