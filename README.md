@@ -43,9 +43,9 @@ and asset reference resolves within `dist/`; it fails on a missing target.
 Push to the repository's default branch to run `.github/workflows/pages.yml`.
 In the repository's **Settings → Pages → Build and deployment**, select
 **GitHub Actions** as the source once. The workflow installs the build
-dependencies, tests, renders `dist/`, uploads it, and deploys it. It sets the
-correct URL prefix from GitHub Pages for both `username.github.io` repositories
-and regular project repositories. GitHub Pages is free for public repositories
+dependencies, tests, renders `dist/`, uploads it, and deploys it. The production
+workflow builds with `--base-path /` for `MadhavendraPandey.github.io`, publishing
+at `https://madhavendrapandey.github.io/`. GitHub Pages is free for public repositories
 on GitHub Free. The external GSAP scripts still need network access in the
 visitor's browser; the rest of the site is included in `dist/`.
 
