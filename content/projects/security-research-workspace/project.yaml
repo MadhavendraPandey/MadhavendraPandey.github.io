@@ -1,0 +1,41 @@
+title: Security Research Workspace
+slug: security-research-workspace
+year: 2026
+status: Evolving concept
+featured: true
+order: 2
+tagline: A structured home for security learning, evidence, and findings.
+summary: >
+  An evolving engineering and security project intended to connect labs, targets,
+  observations, evidence, findings, and reports in one workspace. The focus is a
+  clear research workflow rather than a collection of disconnected notes.
+stack: [Security research, Evidence, Reporting]
+github: ""
+sections:
+  - type: text
+    eyebrow: The problem
+    title: Notes are not the whole investigation.
+    content: >
+      Security learning produces observations, artifacts, and questions across many
+      sessions. Without a consistent structure, the connection between a target,
+      an observation, and its supporting evidence becomes difficult to recover.
+  - type: architecture
+    eyebrow: Proposed workflow
+    title: Keep the reasoning connected.
+    content: >
+      The planned workspace follows the path from a scoped lab or target to a
+      supported finding. These are intended relationships, not a list of shipped features.
+    steps:
+      - Define the lab or authorized target and scope
+      - Record observations and open questions
+      - Attach evidence with its source context
+      - Develop findings from reproducible observations
+      - Assemble a clear research report
+  - type: text
+    eyebrow: Current direction
+    title: Structure first. Automation later.
+    content: >
+      The project is exploring how to organize research with minimal overhead.
+      The data model, evidence workflow, and reporting boundaries are still evolving.
+      Automated testing, report generation, and integrations are not presented as
+      implemented capabilities.

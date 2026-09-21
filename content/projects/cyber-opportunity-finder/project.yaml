@@ -1,0 +1,46 @@
+title: Cyber Opportunity Finder
+slug: cyber-opportunity-finder
+year: 2026
+status: Research / planning
+featured: true
+order: 3
+tagline: Finding useful product questions in recurring security pain points.
+summary: >
+  A local research system intended to collect public cybersecurity practitioner
+  and company pain points, preserve their context, and surface recurring workflow
+  or product opportunities. The project is in research and planning; the described
+  pipeline is an intended design.
+stack: [Python, PostgreSQL*, pgvector*, Ollama*]
+github: ""
+sections:
+  - type: text
+    eyebrow: The question
+    title: What keeps getting in the way?
+    content: >
+      Public discussions contain practical accounts of repetitive tasks, awkward
+      handoffs, and gaps between security tools. The goal is to explore recurring
+      problems without treating a single complaint as proof of a product opportunity.
+  - type: architecture
+    eyebrow: Intended pipeline
+    title: From public observation to a better question.
+    steps:
+      - Collect relevant public sources and their context
+      - Normalize observations while preserving attribution
+      - Explore related themes using local embeddings
+      - Review recurring pain points and counterexamples
+      - Form questions for further product research
+  - type: text
+    eyebrow: Technical direction
+    title: Local analysis, traceable sources.
+    content: >
+      Python, PostgreSQL, pgvector, Ollama, and local embeddings are candidate
+      technologies for this project. Asterisks in the stack mark planned choices,
+      not deployed components. Collection, clustering, and opportunity discovery
+      remain intended capabilities.
+  - type: text
+    eyebrow: Research boundaries
+    title: A signal is a starting point.
+    content: >
+      Any surfaced theme should remain connected to its source and be evaluated
+      by a person. Repetition alone does not establish severity, willingness to pay,
+      or a validated opportunity. Those questions need further research.

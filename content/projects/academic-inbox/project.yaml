@@ -1,0 +1,57 @@
+title: Academic Inbox
+slug: academic-inbox
+year: 2026
+status: In development
+featured: true
+order: 1
+tagline: A local intelligence layer for academic WhatsApp groups.
+summary: >
+  A Windows-first system for bringing academic messages and files into one
+  local archive through Beeper Desktop. The project brings together deduplication,
+  organization, search, and local AI around information that is otherwise scattered
+  across group conversations. This overview describes the system direction;
+  individual capabilities remain under development.
+stack: [Python, FastAPI, SQLite, Ollama]
+github: ""
+pet:
+  intro: "the group chat needed boundaries."
+  hover: "babu called this a small project."
+  github: "the evidence is in there."
+  detail: "this required a few refills."
+hero_image: ""
+sections:
+  - type: text
+    eyebrow: The problem
+    title: Useful information. Everywhere but together.
+    content: >
+      Announcements, documents, and repeated messages arrive across several academic
+      WhatsApp groups. Finding the original file or recovering the context of an
+      announcement requires navigating a stream built for conversation, not retrieval.
+  - type: architecture
+    eyebrow: System direction
+    title: One archive, kept local.
+    content: >
+      The intended workflow connects selected groups through Beeper Desktop to a
+      local archive. Each stage has a clear responsibility, from preserving source
+      material to making it discoverable.
+    steps:
+      - Selected academic groups via Beeper Desktop
+      - Ingest messages and files, retaining source context
+      - Deduplicate and organize in SQLite
+      - Retrieve through FTS5 and local embeddings
+      - Explore through a FastAPI / Jinja interface with Ollama
+  - type: text
+    eyebrow: Engineering focus
+    title: Retrieval before generation.
+    content: >
+      Reliable ingestion, traceable source material, and predictable search are the
+      foundation. Full-text search and semantic retrieval address different needs;
+      local AI should help interpret retrieved material without obscuring its origin.
+      The proposed stack includes SQLite FTS5, local embeddings, and Ollama.
+  - type: text
+    eyebrow: Current state
+    title: An evolving local system.
+    content: >
+      The project is in development, with attention on ingestion consistency,
+      duplicate handling, and useful local retrieval. Detailed implementation notes
+      and measured results will follow as those pieces are verified.

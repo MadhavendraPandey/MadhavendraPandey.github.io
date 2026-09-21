@@ -1,0 +1,13 @@
+<a class="project-card light-panel" data-pet-context="project" data-pet-id="{{ project.slug }}" href="/projects/{{ project.slug }}" aria-labelledby="title-{{ project.slug }}" data-pet-project="{{ project.pet.model_dump()|tojson|forceescape }}">
+  <div class="project-title">
+    <h3 id="title-{{ project.slug }}">{{ project.title }}</h3>
+    <span class="project-status">{{ project.status }}</span>
+  </div>
+  <div class="project-info">
+    <p>{{ project.tagline }}</p>
+    <ul class="stack" aria-label="Technologies">
+      {% for tech in project.stack %}<li>{{ tech }}</li>{% endfor %}
+    </ul>
+  </div>
+  <span class="project-arrow" aria-hidden="true">↗</span>
+</a>

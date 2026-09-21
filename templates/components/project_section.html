@@ -1,0 +1,61 @@
+<section {% if section.type == 'architecture' %}data-pet-context="architecture"{% endif %} class="project-section" data-pet-section="{{ 'architecture' if section.type == 'architecture' else 'detail' }}">
+  <div class="section-label eyebrow">
+    {{ section.eyebrow }}
+  </div>
+  <div class="section-body">
+    {% if section.title %}
+      <h2>
+        {{ section.title }}
+      </h2>
+    {% endif %}
+    {% if section.content %}
+      <p class="prose">
+        {{ section.content }}
+      </p>
+    {% endif %}
+    {% if section.type == 'image' and section.image %}
+      <figure>
+        <img src="{{ section.image.src }}" alt="{{ section.image.alt }}" loading="lazy" width="1200" height="750">
+        {% if section.image.caption %}
+          <figcaption>
+            {{ section.image.caption }}
+          </figcaption>
+        {% endif %}
+      </figure>
+    {% elif section.type == 'gallery' %}
+      <div class="gallery">
+        {% for image in section.images %}
+          <figure>
+            <img src="{{ image.src }}" alt="{{ image.alt }}" loading="lazy" width="800" height="600">
+            {% if image.caption %}
+              <figcaption>
+                {{ image.caption }}
+              </figcaption>
+            {% endif %}
+          </figure>
+        {% endfor %}
+      </div>
+    {% elif section.type == 'metrics' %}
+      <dl class="metrics">
+        {% for metric in section.metrics %}
+          <div>
+            <dt>
+              {{ metric.label }}
+            </dt>
+            <dd>
+              {{ metric.value }}
+            </dd>
+          </div>
+        {% endfor %}
+      </dl>
+    {% elif section.type == 'architecture' %}
+      <ol class="architecture">
+        {% for step in section.steps %}
+          <li>
+            {{ step }}
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+  </div>
+</section>

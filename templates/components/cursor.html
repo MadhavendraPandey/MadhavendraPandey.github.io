@@ -1,0 +1,36 @@
+<span class="custom-cursor" aria-hidden="true">
+  <svg viewBox="0 0 96 120" fill="none" focusable="false">
+    <defs>
+      <linearGradient id="cursor-bevel" x1="0" y1="0" x2="92" y2="112" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#bfc4c8"/>
+        <stop offset=".35" stop-color="#727a81"/>
+        <stop offset=".64" stop-color="#e0e4e6"/>
+        <stop offset="1" stop-color="#4d565d"/>
+      </linearGradient>
+      <linearGradient id="cursor-face" x1="20" y1="22" x2="76" y2="118" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#171b1e"/>
+        <stop offset=".6" stop-color="#292d30"/>
+        <stop offset="1" stop-color="#11171b"/>
+      </linearGradient>
+      <linearGradient id="cursor-cyan" x1="28" y1="55" x2="72" y2="107" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#00a0b7"/>
+        <stop offset=".22" stop-color="#65ffff"/>
+        <stop offset=".5" stop-color="#00def2"/>
+        <stop offset=".75" stop-color="#00a5c0"/>
+        <stop offset="1" stop-color="#79ffff"/>
+      </linearGradient>
+      <filter id="cursor-glow" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur stdDeviation="2"/>
+      </filter>
+    </defs>
+    <!-- The upper-left point is the actual pointer hotspot. -->
+    <path d="M0 0 94 65 71 118 13 113Z" fill="url(#cursor-bevel)"/>
+    <path d="M8 13 91 70 70 117 19 112Z" fill="url(#cursor-face)"/>
+    <path d="M0 0 94 65 91 70 8 13Z" fill="url(#cursor-bevel)"/>
+    <path d="m13 113 6-1 51 5 1 1Z" fill="#080d11"/>
+    <circle cx="48" cy="80" r="29" fill="#131c20" stroke="#363f43"/>
+    <circle class="cursor-ring-glow" cx="48" cy="80" r="26" stroke="#00eaff" stroke-width="8" filter="url(#cursor-glow)"/>
+    <circle class="cursor-ring" cx="48" cy="80" r="26" stroke="url(#cursor-cyan)" stroke-width="6"/>
+    <circle cx="48" cy="80" r="22" fill="url(#cursor-face)"/>
+  </svg>
+</span>

@@ -1,0 +1,13 @@
+<section id="work" data-pet-section="projects" class="container {{ 'editorial-page' if work_page|default(false) else 'work-section' }}" aria-labelledby="work-title">
+  <div class="section-heading">
+    <h2 id="work-title">Selected work</h2>
+    <p>Independent projects, in progress.</p>
+  </div>
+  <div class="project-list">
+    {% for project in projects %}
+      {% include 'components/project_card.html' %}
+    {% else %}
+      <p>New work is taking shape. Check back soon.</p>
+    {% endfor %}
+  </div>
+</section>

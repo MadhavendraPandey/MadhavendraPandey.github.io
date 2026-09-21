@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block styles %}<link rel="stylesheet" href="/static/css/pages/home.css?v=33">{% endblock %}
+{% block content %}
+<div class="hero-scroll">
+  <section class="container intro" aria-labelledby="intro-title">
+    <div class="intro-copy">
+      <p class="intro-greeting">Hi,<br>I'm Madhav.</p>
+      <div class="intro-identity">
+        <h1 id="intro-title" data-pet-context="identity">MADHAVENDRA<br>PANDEY</h1>
+        <p class="intro-discipline">Security / AI / Software Systems</p>
+      </div>
+    </div>
+    <div class="intro-object">
+      {% include 'components/keycap.html' %}
+    </div>
+  </section>
+</div>
+<script>
+  try {
+    if (!sessionStorage.getItem('portfolio-pet-position')) {
+      const phone = matchMedia('(max-width: 600px)').matches;
+      const tablet = matchMedia('(max-width: 900px)').matches;
+      const position = phone ? {x: .04, y: .32} : tablet ? {x: .04, y: .42} : {x: .25, y: .67};
+      sessionStorage.setItem('portfolio-pet-position', JSON.stringify(position));
+    }
+  } catch { /* The pet keeps its normal fallback position. */ }
+</script>
+{% include 'components/work_section.html' %}
+{% endblock %}

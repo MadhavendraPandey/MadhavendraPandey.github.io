@@ -1,0 +1,79 @@
+# Set false to remove the pet and its independent assets.
+enabled: true
+dialogue:
+  identity:
+    - "yeah. that's my dev."
+    - "yup. he made me."
+    - "that's the human."
+    - "that's kiddo."
+    - "my developer."
+  identity_repeated:
+    - "still him."
+    - "yes. same human."
+    - "checking twice won't change it."
+    - "kiddo remains kiddo."
+  work:
+    - "that's where kiddo keeps his experiments."
+    - "the useful stuff is in there."
+    - "ah. the things he actually built."
+    - "projects live there."
+  projects:
+    - "the interesting stuff starts here."
+    - "babu actually built things."
+  project_linger:
+    - "the human built this."
+    - "this required two refills."
+  projects_dwell:
+    - "taking your time."
+  detail:
+    - "you're actually reading this."
+    - "this was supposed to be small."
+  architecture:
+    - "the diagram used to be smaller."
+    - "maharaj had other plans."
+  repeated:
+    - "you really like this one."
+    - "still deciding?"
+  github:
+    - "that's where the evidence lives."
+    - "the human left his code there."
+    - "source code."
+    - "kiddo's natural habitat."
+    - "the receipts."
+  linkedin:
+    - "ah. the professional human."
+    - "kiddo behaves professionally here."
+    - "the professional internet."
+  contact:
+    - "going to talk to my dev?"
+    - "need the human?"
+    - "you can reach kiddo there."
+  about:
+    - "want the human lore?"
+    - "the lore section."
+  email:
+    - "straight to the human."
+    - "old-school. respectable."
+    - "kiddo checks this."
+  footer:
+    - "you made it."
+    - "the human will be pleased."
+  pet_click:
+    - "bhai."
+    - "what."
+    - "babu gave me no job description."
+  project_deep:
+    - "you're actually reading this."
+  architecture_deep:
+    - "the diagram used to be smaller."
+  github_deep:
+    - "planning an audit?"
+    - "the commit history is mostly harmless."
+  linkedin_deep:
+    - "that's enough networking."
+  tech:
+    - "the human collected tools."
+    - "babu likes this one."
+  leave:
+    - "fair enough."
+    - "moving on?"

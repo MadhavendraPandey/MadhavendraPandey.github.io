@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}
+  {{ project.title }} — Madhavendra Pandey
+{% endblock %}
+{% block description %}
+  {{ project.summary }}
+{% endblock %}
+{% block styles %}
+  <link rel="stylesheet" href="/static/css/pages/project.css">
+{% endblock %}
+{% block content %}
+  <article class="container project-page" data-pet-project="{{ project.pet.model_dump()|tojson|forceescape }}">
+    <a class="back-link mono" href="/#work">← Back to work</a>
+    <header class="project-header" data-pet-section="detail">
+      <div class="eyebrow">
+        {{ project.year }} / {{ project.status }}
+      </div>
+      <h1>
+        {{ project.title }}
+      </h1>
+      <p class="project-tagline">
+        {{ project.tagline }}
+      </p>
+      <div class="project-meta">
+        <ul data-pet-context="tech" class="stack" aria-label="Technologies">
+          {% for tech in project.stack %}
+            <li>
+              {{ tech }}
+            </li>
+          {% endfor %}
+        </ul>
+          {% if project.github %}
+            <a class="text-link" href="{{ project.github }}" data-pet-context="github">View on GitHub ↗</a>
+        {% endif %}
+      </div>
+      <p class="project-summary">
+        {{ project.summary }}
+      </p>
+    </header>
+    {% if project.hero_image %}
+      <figure>
+        <img class="hero-image" src="{{ project.hero_image }}" alt="{{ project.hero_alt }}" width="1440" height="900">
+      </figure>
+    {% endif %}
+    {% for section in project.sections %}
+      {% include 'components/project_section.html' %}
+    {% endfor %}
+    <div class="project-end">
+      <span class="eyebrow">Explore more</span><a href="/#work">All selected work <span aria-hidden="true">↗</span></a>
+    </div>
+  </article>
+{% endblock %}

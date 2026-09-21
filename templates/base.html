@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#090909">
+    <script src="/static/js/theme.js"></script>
+    <title>{% block title %}Madhavendra Pandey — AI Security & Software Systems{% endblock %}</title>
+    <meta name="description" content="{% block description %}Selected projects by Madhavendra Pandey. Building and understanding systems across AI security, backend engineering, and local AI.{% endblock %}">
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    {% for sheet in ['base', 'layout', 'components', 'animations'] %}
+      <link rel="stylesheet" href="/static/css/{{ sheet }}.css?v=36">
+    {% endfor %}
+    {% block styles %}
+    {% endblock %}
+    {% if pet_enabled %}<link rel="stylesheet" href="/static/css/components/pet.css?v=19">{% endif %}
+    <script defer src="/static/js/cursor.js?v=2"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js">
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js">
+    </script>
+    <script type="module" src="/static/js/app.js?v=19">
+    </script>
+  {% if pet_enabled %}<script type="module" src="/static/js/pet.js?v=19"></script>{% endif %}
+  </head>
+  <body>
+    {% include 'components/cursor.html' %}
+    <a class="skip-link" href="#main">Skip to content</a>
+    {% include 'components/navbar.html' %}
+    <main id="main">
+      {% block content %}
+      {% endblock %}
+    </main>
+    {% if pet_enabled %}{% include 'components/pet.html' %}{% endif %}
+    {% include 'components/footer.html' %}
+  </body>
+</html>
+
+

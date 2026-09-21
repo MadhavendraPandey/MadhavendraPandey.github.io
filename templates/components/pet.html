@@ -1,0 +1,36 @@
+<div id="portfolio-pet" class="pet" data-state="idle" hidden>
+      <span class="pet-speech" aria-live="off"></span>
+      <button class="pet-nudge" type="button" aria-label="Coffee mug: drag to move, use arrow keys to position, or click to nudge" title="Drag me anywhere  /  Arrow keys to move" disabled>
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <g class="pet-steam" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path class="pet-steam-1" d="M33 28c-7-7 7-10 1-17"/>
+            <path class="pet-steam-2" d="M46 25c-7-8 7-11 1-20"/>
+            <path class="pet-steam-3" d="M59 28c-6-7 6-10 1-16"/>
+          </g>
+          <g class="pet-shape">
+            <path class="pet-handle" d="M70 43c25-8 28 30 0 28" fill="none" stroke="#666" stroke-width="8"/>
+            <path d="M70 43c25-8 28 30 0 28" fill="none" stroke="#191919" stroke-width="5"/>
+            <rect class="pet-left-foot" x="27" y="78" width="14" height="9" rx="4" fill="#252525" stroke="#6c6c68"/>
+            <rect class="pet-right-foot" x="53" y="78" width="14" height="9" rx="4" fill="#252525" stroke="#6c6c68"/>
+            <path class="pet-body" d="M20 37h53v36q0 9-9 9H29q-9 0-9-9Z" fill="#191919" stroke="#70706a" stroke-width="1.5"/>
+            <ellipse cx="46.5" cy="37" rx="26.5" ry="7" fill="#333" stroke="#70706a" stroke-width="1.5"/>
+            <ellipse class="pet-coffee" cx="46.5" cy="37" rx="22" ry="4" fill="#101010"/>
+            <g class="pet-eyes">
+              <ellipse class="pet-left-eye" cx="36" cy="56" rx="7" ry="7" fill="#e9e9e2"/>
+              <ellipse class="pet-right-eye" cx="57" cy="56" rx="7" ry="7" fill="#e9e9e2"/>
+              <circle class="pet-left-pupil" cx="37" cy="57" r="2.5" fill="#171717"/>
+              <circle class="pet-right-pupil" cx="58" cy="57" r="2.5" fill="#171717"/>
+              <path class="pet-lids" d="M28 49h16m5 0h16" stroke="#191919" stroke-width="4"/>
+              <path class="pet-brow" d="M28 47l13-3m10 3l13-3" stroke="#deded7" stroke-width="2" stroke-linecap="round"/>
+            </g>
+            <circle class="pet-cheeks" cx="27" cy="67" r="3" fill="#9f9187"/>
+            <circle class="pet-cheeks" cx="67" cy="67" r="3" fill="#9f9187"/>
+            <path class="pet-sleep-eyes" d="M30 57h12m9 0h12" stroke="#d5d5ce" stroke-width="2" stroke-linecap="round"/>
+            <ellipse class="pet-mouth" cx="47" cy="70" rx="2" ry="2.5" fill="#c9c9c0"/>
+          </g>
+        </svg>
+      </button>
+      <button class="pet-hide" type="button" aria-label="Hide coffee mug for this tab" hidden>×</button>
+</div>
+
+<script type="application/json" id="pet-dialogue">{{ pet_dialogue|tojson }}</script>

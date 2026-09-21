@@ -1,0 +1,14 @@
+<header class="site-header">
+  <nav class="container nav" aria-label="Main navigation">
+    <a class="wordmark" href="/" data-pet-context="identity" aria-label="Madhavendra Pandey home">Madhavendra P.</a>
+    <div class="nav-links">
+      <a href="/#work" data-pet-context="work" {% if request.url.path in ['/', '/work'] or request.url.path.startswith('/projects/') %}aria-current="page"{% endif %}>Work</a>
+      <a href="/about" data-pet-context="about" {% if request.url.path == '/about' %}aria-current="page"{% endif %}>About</a>
+      <a href="/contact" data-pet-context="contact" {% if request.url.path == '/contact' %}aria-current="page"{% endif %}>Contact</a>
+      <button class="theme-toggle" type="button" aria-label="Switch to light mode" hidden>
+        <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A9 9 0 0 1 8.5 4 9 9 0 1 0 20 15.5Z"/></svg>
+      </button>
+    </div>
+  </nav>
+</header>
