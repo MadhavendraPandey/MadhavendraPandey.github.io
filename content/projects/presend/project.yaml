@@ -1,0 +1,47 @@
+title: PreSend
+slug: presend
+year: 2026
+status: Browser extension
+featured: true
+order: 0
+tagline: Local-first sensitive-data protection for AI chats.
+summary: >
+  PreSend detects credentials and semantically sensitive information before
+  submission and warns the user before potentially sensitive content is sent.
+stack: [Browser extension, Local ML, Microsoft Edge, Firefox]
+github: ""
+privacy: "/presend/privacy"
+edge_addons: ""
+firefox_addons: ""
+pet:
+  intro: "a local check before send. sensible."
+  hover: "the warning happens before the regret."
+  detail: "this one keeps the inspection on-device."
+hero_image: ""
+sections:
+  - type: architecture
+    eyebrow: Protection flow
+    title: Inspect locally, then let the user decide.
+    content: >
+      PreSend adds a review step before content leaves a supported AI chat
+      composer. It warns rather than claiming perfect protection.
+    steps:
+      - Detect credentials with local deterministic checks
+      - Detect semantically sensitive information with local inference
+      - Warn before submission
+      - Offer Redact or Replace with Safe Example
+      - Keep feedback decisions and allowlisting local
+  - type: text
+    eyebrow: Local by design
+    title: No scanning backend.
+    content: >
+      Detection and semantic inference run in the browser. PreSend has no backend
+      for scanning, telemetry, or feedback, and it does not use cloud inference.
+      Detection can produce false positives or miss sensitive information, so the
+      user remains in control of the final submission.
+  - type: text
+    eyebrow: Supported browsers
+    title: Microsoft Edge and Firefox.
+    content: >
+      PreSend is being prepared for Microsoft Edge Add-ons and Firefox Add-ons.
+      Store links will appear here only after the listings are published.

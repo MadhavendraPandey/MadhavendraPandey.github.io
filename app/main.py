@@ -53,6 +53,11 @@ def contact(request: Request):
     return templates.TemplateResponse(request=request, name="contact.html")
 
 
+
+
+@app.get("/presend/privacy")
+def presend_privacy(request: Request):
+    return templates.TemplateResponse(request=request, name="presend_privacy.html")
 @app.get("/projects/{slug}")
 def project_detail(request: Request, slug: str):
     project = find_project(request.app.state.projects, slug)
@@ -72,3 +77,4 @@ async def http_error(request: Request, exc: StarletteHTTPException):
         return templates.TemplateResponse(request=request, name="404.html", status_code=404)
     return templates.TemplateResponse(request=request, name="404.html", status_code=exc.status_code,
                                       context={"error_code": exc.status_code})
+

@@ -1,0 +1,89 @@
+.privacy-page {
+  padding-top: 40px;
+}
+
+.privacy-header {
+  max-width: 760px;
+  padding: 40px 0 48px;
+}
+
+.privacy-header h1 {
+  margin: 16px 0 18px;
+}
+
+.privacy-intro {
+  max-width: 640px;
+  font-size: var(--font-body);
+}
+
+.effective-date {
+  margin-top: 16px;
+  font-size: var(--font-small);
+}
+
+.privacy-content {
+  max-width: 760px;
+}
+
+.privacy-section {
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+}
+
+.privacy-section h2 {
+  margin-bottom: 16px;
+}
+
+.privacy-section p + p {
+  margin-top: 16px;
+}
+
+.privacy-section ul {
+  margin: 14px 0 0 18px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.privacy-section strong,
+.permission-list dt {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.permission-list {
+  margin: 0;
+}
+
+.permission-list div {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr);
+  gap: 24px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border);
+}
+
+.permission-list div:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.permission-list dd {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 600px) {
+  .privacy-header {
+    padding-block: 32px 40px;
+  }
+
+  .privacy-section {
+    padding-block: 28px;
+  }
+
+  .permission-list div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}

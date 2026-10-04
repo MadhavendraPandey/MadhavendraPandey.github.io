@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}PreSend Privacy Policy{% endblock %}
+{% block description %}Privacy policy for PreSend, a local-first browser extension for detecting potentially sensitive information before submission to supported AI chat services.{% endblock %}
+{% block styles %}<link rel="stylesheet" href="/static/css/pages/privacy.css?v=1">{% endblock %}
+{% block content %}
+  <article class="container privacy-page">
+    <a class="back-link mono" href="/projects/presend">← Back to PreSend</a>
+    <header class="privacy-header">
+      <p class="eyebrow">PreSend</p>
+      <h1>PreSend Privacy Policy</h1>
+      <p class="privacy-intro">This policy explains how the current local-only version of PreSend handles information.</p>
+      <p class="effective-date">Effective October 4, 2026</p>
+    </header>
+
+    <div class="privacy-content">
+      <section class="privacy-section">
+        <h2>1. Overview</h2>
+        <p>PreSend is a browser extension that helps users identify potentially sensitive information before submitting content to supported AI chat services.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>2. Local processing</h2>
+        <p>Text entered into supported AI chat interfaces is processed locally in the browser. Supported files may also be inspected locally for sensitive information.</p>
+        <p>Deterministic detection and semantic machine-learning inference both run locally. PreSend does not send prompts or detected passages to the developer or to any PreSend-operated server.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>3. Data collection</h2>
+        <p>PreSend does not collect or transmit user content to the developer.</p>
+        <p>PreSend does not collect:</p>
+        <ul>
+          <li>prompts or chat messages</li>
+          <li>detected sensitive passages</li>
+          <li>uploaded file contents</li>
+          <li>credentials</li>
+          <li>browsing history</li>
+          <li>analytics or telemetry</li>
+          <li>location</li>
+          <li>account information</li>
+        </ul>
+      </section>
+
+      <section class="privacy-section">
+        <h2>4. Local storage</h2>
+        <p>PreSend may store user settings, protection preferences, local feedback decisions, local allowlist information, and optional local history when that feature is enabled. This information remains in browser extension storage on the user's device or browser profile.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>5. Feedback</h2>
+        <p>Feedback choices such as <strong>Correct</strong>, <strong>Not Sensitive</strong>, and <strong>Wrong Category</strong> are processed and stored locally only. No feedback is transmitted to PreSend or the developer.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>6. Network behavior</h2>
+        <p>PreSend does not operate a backend for scanning, inference, telemetry, or feedback. It does not use cloud AI inference.</p>
+        <p>When a user chooses to send a message, the destination AI service handles that message under its own privacy policy and terms. PreSend does not control the browser's or destination service's network behavior.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>7. Permissions</h2>
+        <dl class="permission-list">
+          <div>
+            <dt>storage</dt>
+            <dd>Used for local settings, preferences, feedback decisions, allowlisting, and optional local history.</dd>
+          </div>
+          <div>
+            <dt>host permissions</dt>
+            <dd>Used only on supported AI chat websites so PreSend can detect message composers, inspect content locally before submission, and show warnings.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="privacy-section">
+        <h2>8. Third-party AI services</h2>
+        <p>PreSend operates on supported AI chat websites, but those services are independent third parties. Once a user chooses to send content, the AI service's own privacy policy and terms apply.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>9. Changes</h2>
+        <p>This privacy policy may be updated if PreSend's behavior changes. The effective date above will be revised when the policy is updated.</p>
+      </section>
+
+      <section class="privacy-section">
+        <h2>10. Contact</h2>
+        <p>Questions about PreSend or this policy can be sent through the <a class="text-link" href="/contact">portfolio contact page</a>.</p>
+      </section>
+    </div>
+  </article>
+{% endblock %}

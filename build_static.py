@@ -36,7 +36,7 @@ def static_url(url: str, base_path: str) -> str:
         fragment = ""
     else:
         fragment = parts.fragment
-    if path in {"/about", "/contact", "/work"}:
+    if path in {"/about", "/contact", "/work", "/presend/privacy"}:
         path += "/"
     elif path.startswith("/projects/") and not path.endswith("/"):
         path += "/"
@@ -93,7 +93,8 @@ def build(output: Path = ROOT / "dist", base_path: str = "/") -> Path:
     output.mkdir(parents=True)
 
     pages = [("/", Path("index.html")), ("/about", Path("about/index.html")),
-             ("/work", Path("work/index.html")), ("/contact", Path("contact/index.html"))]
+             ("/work", Path("work/index.html")), ("/contact", Path("contact/index.html")),
+             ("/presend/privacy", Path("presend/privacy/index.html"))]
     pages.extend((f"/projects/{project.slug}", Path("projects") / project.slug / "index.html")
                  for project in load_projects())
     pages.append(("/__static_build_missing__", Path("404.html")))
@@ -120,3 +121,5 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, default=ROOT / "dist")
     args = parser.parse_args()
     print(f"Built {build(args.output, args.base_path)} for {normalize_base_path(args.base_path)}")
+
+

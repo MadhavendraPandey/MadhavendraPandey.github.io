@@ -108,16 +108,25 @@ figcaption {
 }
 
 .project-end {
-  display: grid;
-  justify-items: start;
-  gap: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
   border-top: 1px solid var(--border);
   padding-top: 32px;
 }
 
-.project-end a {
-  display: inline-block;
-  font-size: var(--font-heading);
+.project-end-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--font-body);
+}
+
+.project-end-link--github {
+  text-align: right;
 }
 
 @media (max-width: 768px) {
@@ -131,8 +140,15 @@ figcaption {
     grid-template-columns: 1fr;
   }
 
+  .project-end {
+    align-items: flex-start;
+  }
+
   .project-header {
     padding-top: 40px;
   }
 
 }
+
+
+

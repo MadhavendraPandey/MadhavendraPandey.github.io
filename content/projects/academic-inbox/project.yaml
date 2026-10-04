@@ -12,7 +12,7 @@ summary: >
   across group conversations. This overview describes the system direction;
   individual capabilities remain under development.
 stack: [Python, FastAPI, SQLite, Ollama]
-github: ""
+github: "https://github.com/MadhavendraPandey/Academic-Inbox"
 pet:
   intro: "the group chat needed boundaries."
   hover: "babu called this a small project."
@@ -55,3 +55,4 @@ sections:
       The project is in development, with attention on ingestion consistency,
       duplicate handling, and useful local retrieval. Detailed implementation notes
       and measured results will follow as those pieces are verified.
+

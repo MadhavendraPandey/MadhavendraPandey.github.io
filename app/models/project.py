@@ -11,6 +11,14 @@ def safe_url(value: str) -> str:
     return value
 
 
+def safe_page_url(value: str) -> str:
+    if value and not (value.startswith("https://") or value.startswith("/")):
+        raise ValueError("Page URLs must start with https:// or /")
+    if "\\" in value or ".." in value.split("/"):
+        raise ValueError("URL must not contain path traversal")
+    return value
+
+
 class ProjectImage(BaseModel):
     src: str
     alt: str = Field(min_length=1)
@@ -62,12 +70,16 @@ class Project(BaseModel):
     summary: str = Field(min_length=1)
     stack: list[str] = Field(default_factory=list)
     github: str = ""
+    privacy: str = ""
+    edge_addons: str = ""
+    firefox_addons: str = ""
     hero_image: str = ""
     hero_alt: str = ""
     sections: list[Section] = Field(default_factory=list)
     pet: PetDialogue = Field(default_factory=PetDialogue)
 
-    _urls = field_validator("github", "hero_image")(safe_url)
+    _urls = field_validator("github", "edge_addons", "firefox_addons", "hero_image")(safe_url)
+    _page_urls = field_validator("privacy")(safe_page_url)
 
     @model_validator(mode="after")
     def validate_hero(self):
