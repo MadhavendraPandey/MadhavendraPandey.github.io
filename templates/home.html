@@ -15,15 +15,5 @@
     </div>
   </section>
 </div>
-<script>
-  try {
-    if (!sessionStorage.getItem('portfolio-pet-position')) {
-      const phone = matchMedia('(max-width: 600px)').matches;
-      const tablet = matchMedia('(max-width: 900px)').matches;
-      const position = phone ? {x: .04, y: .32} : tablet ? {x: .04, y: .42} : {x: .25, y: .67};
-      sessionStorage.setItem('portfolio-pet-position', JSON.stringify(position));
-    }
-  } catch { /* The pet keeps its normal fallback position. */ }
-</script>
 {% include 'components/work_section.html' %}
 {% endblock %}

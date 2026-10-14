@@ -29,7 +29,7 @@ function setup({reduced=false,mobile=false,storage={}}={}) {
   const projects=new Element({petSection:'projects'}),detail=new Element({petSection:'detail'}),footer=new Element({petSection:'footer'});
   const doc=new Element(),win=new Element(),motion=new Element(),pointer=new Element();
   motion.matches=reduced;pointer.matches=!mobile;doc.hidden=false;win.innerWidth=1000;win.innerHeight=800;win.scrollY=0;
-  const messages={projects:['projects entry'],project_linger:['generic project'],github:['evidence.'],linkedin:['professional internet'],pet_click:['bhai.','what.'],detail:['actually reading'],projects_dwell:['taking your time.'],footer:['you made it.'],repeated:['still deciding?'],project_deep:['actually reading'],github_deep:['planning an audit?'],architecture:['the diagram'],leave:['fair enough.']};
+  const messages={projects:['projects entry'],project_linger:['generic project'],github:['evidence.'],linkedin:['professional internet'],pet_click:['combo unlocked: espresso mode.','okay, now we\'re overclocked.'],detail:['actually reading'],projects_dwell:['taking your time.'],footer:['you made it.'],repeated:['still deciding?'],project_deep:['actually reading'],github_deep:['planning an audit?'],architecture:['the diagram'],leave:['fair enough.']};
   doc.querySelector=s=>s==='.pet'?pet:{textContent:JSON.stringify(messages)};
   doc.querySelectorAll=s=>s==='[data-pet-section]'?[projects,detail,footer]:[project,github,linkedin];
   const observers=[];
@@ -41,7 +41,7 @@ function setup({reduced=false,mobile=false,storage={}}={}) {
   return {...api,pet,nudge,hide,speech,project,github,linkedin,projects,detail,footer,doc,win,motion,pointer,enter,activity,storage,cleanup};
 }
 let h=setup();
-assert.equal(h.pet.hidden,false);
+assert.equal(h.pet.hidden,false);assert.deepEqual(h.state.position,{x:0,y:1},'Fresh sessions start at the bottom-left');
 h.enter(h.projects);assert.equal(h.pet.hidden,false);
 h.activity();assert.equal(h.pet.hidden,false);assert.equal(h.state.expression,'excited');
 h.enter(h.projects,false);h.enter(h.projects);assert.equal(h.state.appearanceCount,1);h.cleanup();
@@ -61,7 +61,7 @@ for(const leaveAt of [200,1000,2250]) {
 }
 h=setup();h.project.fire('pointerenter');tick(1000);h.github.fire('pointerenter');tick(1000);
 assert.equal(h.speech.textContent,'evidence.','Switching targets replaces stale speech with the new context');
-h.github.fire('pointerleave');tick(200);h.linkedin.fire('pointerenter');tick(2440);assert.equal(h.state.context,'linkedin');assert.equal(h.speech.textContent,'','Dialogue cooldown never blocks the visual reaction');h.cleanup();
+h.github.fire('pointerleave');tick(200);h.linkedin.fire('pointerenter');tick(2440);assert.equal(h.state.context,'linkedin');assert.equal(h.speech.textContent,'professional internet','A new hover replaces the previous message and remains visible for three seconds');h.cleanup();
 h=setup();h.project.fire('pointerenter');tick(900);h.project.isConnected=false;tick(6000);assert.equal(h.state.meaningfulCount,0);h.cleanup();
 console.log('Early leave, pending-message cancellation, target switching and detached nodes passed.');
 
@@ -76,9 +76,10 @@ h.nudge.fire('click');assert.equal(h.state.expression,'surprised');assert.ok(h.p
 tick(400);assert.ok(h.pet.classes.has('pet--jump-normal'),'Entrance cannot override a click');
 h.nudge.fire('click');assert.ok(h.pet.classes.has('pet--jump-small'));
 h.nudge.fire('click');assert.equal(h.state.expression,'suspicious');
-h.nudge.fire('click');assert.equal(h.state.expression,'annoyed');tick(240);assert.equal(h.speech.textContent,'bhai.');
+h.nudge.fire('click');assert.equal(h.state.expression,'excited');tick(240);assert.equal(h.speech.textContent,'combo unlocked: espresso mode.');
+assert.ok(h.pet.dataset.action==='overdrive');tick(2759);assert.equal(h.speech.textContent,'combo unlocked: espresso mode.');tick(1);assert.equal(h.pet.classes.has('is-speaking'),false,'Pet comments remain visible for three seconds');
 h.nudge.fire('click');const clicks=h.state.clicks;for(let i=0;i<10;i++)h.nudge.fire('click');assert.equal(h.state.clicks,clicks+10,'Repeated taps keep escalating the physical reaction');
-h.github.fire('pointerenter');tick(1000);assert.equal(h.state.expression,'annoyed','Interest cannot override a direct reaction');
+h.github.fire('pointerenter');tick(1000);assert.equal(h.state.expression,'excited','Interest cannot override a direct reaction');
 h.github.fire('pointerleave');tick(38000);assert.equal(h.state.expression,'sleeping');tick(6000);h.doc.fire('pointermove',{clientX:50,clientY:50});tick(16);assert.equal(h.state.sleeping,false);assert.ok(h.pet.classes.has('pet--jump-small'));
 h.pet.fire('pointerleave');tick(6000);assert.equal(h.pet.hidden,false);h.cleanup();
 console.log('Click escalation, jump isolation, priority, click rest, sleep and wake passed.');

@@ -13,7 +13,7 @@
     {% endfor %}
     {% block styles %}
     {% endblock %}
-    {% if pet_enabled %}<link rel="stylesheet" href="/static/css/components/pet.css?v=19">{% endif %}
+    {% if pet_enabled %}<link rel="stylesheet" href="/static/css/components/pet.css?v=20">{% endif %}
     <script defer src="/static/js/cursor.js?v=2"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js">
     </script>
@@ -21,7 +21,7 @@
     </script>
     <script type="module" src="/static/js/app.js?v=19">
     </script>
-  {% if pet_enabled %}<script type="module" src="/static/js/pet.js?v=19"></script>{% endif %}
+  {% if pet_enabled %}<script type="module" src="/static/js/pet.js?v=20"></script>{% endif %}
   </head>
   <body>
     {% include 'components/cursor.html' %}
@@ -35,5 +35,3 @@
     {% include 'components/footer.html' %}
   </body>
 </html>
-
-

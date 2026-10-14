@@ -125,11 +125,11 @@ export function initPet() {
       const line=lines.find(value=>typeof value==='string' && value && !state.usedMessages.has(value)) || lines.find(value=>typeof value==='string' && value);
       if(!line) return;
       clear('message-clear'); clear('reaction');
-      setPetExpression(expression); state.priority=priority; state.priorityUntil=Date.now()+2000;
+      setPetExpression(expression); state.priority=priority; state.priorityUntil=Date.now()+3000;
       speech.textContent=line; state.messageOwner=element; pet.classList.add('is-speaking'); place();
       state.usedMessages.add(line); state.lastDialogue=Date.now(); state.lastMessageAt=Date.now(); state.messageCount++;
       onShown?.(); save();
-      later('message',2000,()=>{ hideMessage(); relaxHover(); });
+      later('message',3000,()=>{ hideMessage(); relaxHover(); });
       scheduleHide();
     };
     show();
@@ -323,12 +323,13 @@ export function initPet() {
     if(state.suppressClick) { state.suppressClick=false; return; }
     markUserActivity(); cancelLingerReaction();
     state.clicks=Date.now()-state.clickAt<5000?state.clicks+1:1; state.clickAt=Date.now();
-    const expression=state.clicks>=4?'annoyed':state.clicks===3?'suspicious':'surprised';
+    const combo=state.clicks>=4;
+    const expression=combo?'excited':state.clicks===3?'suspicious':'surprised';
     const jump=state.clicks===1?'normal':state.clicks===2?'small':'double';
     pet.dataset.action='none'; void pet.offsetWidth;
-    reactToContext('pet-click',{priority:100,direct:true,jump,expression,action:state.clicks>=2?'shake':'none'});
+    reactToContext('pet-click',{priority:100,direct:true,jump,expression,action:combo?'overdrive':state.clicks>=2?'shake':'none'});
     resetPetLook();
-    if(state.clicks===4) queueComment('pet_click',{priority:100,expression:'annoyed',valid:()=>state.context==='pet-click'});
+    if(state.clicks===4) queueComment('pet_click',{priority:100,expression:'excited',valid:()=>state.context==='pet-click'});
   }
   function registerPetContextElements() {
     document.querySelectorAll('[data-pet-context], a[href*="github.com"], a[href*="linkedin.com"], a[href^="mailto:"], button').forEach(element=>{
@@ -454,4 +455,3 @@ export function initPet() {
   return {state,cleanupPet};
 }
 if(typeof document!=='undefined') initPet();
-
