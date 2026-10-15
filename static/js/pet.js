@@ -100,7 +100,7 @@ export function initPet() {
     linkedin: {expression:'amused', action:'greet'},
     contact: {expression:'curious', action:'greet'},
     email: {expression:'focused', action:'attend'},
-    architecture: {expression:'suspicious', action:'ponder'},
+    architecture: {expression:'thinking', action:'ponder'},
     detail: {expression:'curious', action:'read'},
     about: {expression:'curious', action:'read'},
     tech: {expression:'focused', action:'inspect'},
@@ -250,11 +250,12 @@ export function initPet() {
       hover.stage='linger'; hover.meaningful=true;
       const {key,count}=recordInterest(element,context);
       const repeated=count>=3;
-      if(!reactToContext(repeated?'repeated':context,{priority:75,element,valid,expression:repeated?'suspicious':'focused',action:repeated?'double-take':'none',stage:true})) return;
+      const expression=repeated?'suspicious':context==='project'?'focused':(gestures[context]?.expression || 'curious');
+      if(!reactToContext(repeated?'repeated':context,{priority:75,element,valid,expression,action:repeated?'double-take':'none',stage:true})) return;
       const repeatEligible=repeated && !state.repeatedSeen.has(key);
       const lingerCategory=repeatEligible && dialogue[`${context}_repeated`]?`${context}_repeated`:repeatEligible?'repeated':context==='project'?'project_linger':context;
       queueComment(lingerCategory,
-        {element,valid,priority:75,expression:repeated?'suspicious':'focused',onShown:()=>{if(repeatEligible) state.repeatedSeen.add(key);}});
+        {element,valid,priority:75,expression,onShown:()=>{if(repeatEligible) state.repeatedSeen.add(key);}});
     });
     if(['project','architecture','github','linkedin'].includes(context)) later('deep',6500,()=>{
       if(!valid()) return;

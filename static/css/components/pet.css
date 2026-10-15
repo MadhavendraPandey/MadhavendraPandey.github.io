@@ -181,3 +181,34 @@
 @media (prefers-reduced-motion: reduce) {
   .pet, .pet * { animation: none !important; transition: none !important; transform: none !important; }
 }
+
+/* Distinct faces stay readable at the mug's compact size. */
+.pet-smile, .pet-grin, .pet-smirk, .pet-thought-mouth,
+.pet-happy-eyes, .pet-wink { opacity: 0; }
+.pet[data-state="pleased"] .pet-smile,
+.pet[data-state="curious"] .pet-smile,
+.pet[data-state="impressed"] .pet-smile { opacity: 1; }
+.pet[data-state="amused"] .pet-smirk,
+.pet[data-state="suspicious"] .pet-smirk { opacity: 1; }
+.pet[data-state="excited"] .pet-grin,
+.pet[data-state="excited"] .pet-happy-eyes { opacity: 1; }
+.pet[data-state="excited"] .pet-eyes { opacity: 0; }
+.pet[data-state="amused"] .pet-right-eye,
+.pet[data-state="amused"] .pet-right-pupil { opacity: 0; }
+.pet[data-state="amused"] .pet-wink { opacity: 1; }
+.pet[data-state="thinking"] .pet-thought-mouth,
+.pet[data-state="focused"] .pet-thought-mouth,
+.pet[data-state="annoyed"] .pet-thought-mouth { opacity: 1; }
+.pet[data-state="curious"] .pet-brow { opacity: .7; transform: translateY(-2px); }
+.pet[data-state="thinking"] .pet-brow { opacity: .7; transform: rotate(-7deg); transform-origin: 47px 47px; }
+.pet[data-state="impressed"] .pet-brow { opacity: .8; transform: translateY(-3px); }
+.pet[data-state="suspicious"] .pet-left-eye { transform: scaleY(.7); transform-origin: 36px 56px; }
+.pet[data-state="suspicious"] .pet-brow { opacity: .85; transform: rotate(6deg); transform-origin: 47px 47px; }
+.pet[data-state="drowsy"] .pet-thought-mouth { opacity: .6; }
+.pet[data-state="sleeping"] .pet-mouth { opacity: .65; }
+.pet:hover .pet-smile, .pet:focus-within .pet-smile { opacity: 1; }
+.pet:hover .pet-smirk, .pet:focus-within .pet-smirk,
+.pet:hover .pet-thought-mouth, .pet:focus-within .pet-thought-mouth { opacity: 0; }
+.pet[data-state="excited"]:hover .pet-smile,
+.pet[data-state="excited"]:focus-within .pet-smile { opacity: 0; }
+.pet.is-blinking .pet-happy-eyes, .pet.is-blinking .pet-wink { opacity: 0; }
