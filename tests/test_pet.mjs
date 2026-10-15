@@ -29,7 +29,7 @@ function setup({reduced=false,mobile=false,storage={}}={}) {
   const projects=new Element({petSection:'projects'}),detail=new Element({petSection:'detail'}),footer=new Element({petSection:'footer'});
   const doc=new Element(),win=new Element(),motion=new Element(),pointer=new Element();
   motion.matches=reduced;pointer.matches=!mobile;doc.hidden=false;win.innerWidth=1000;win.innerHeight=800;win.scrollY=0;
-  const messages={projects:['projects entry'],project_linger:['generic project'],github:['evidence.'],linkedin:['professional internet'],pet_click:['combo unlocked: espresso mode.','okay, now we\'re overclocked.'],detail:['actually reading'],projects_dwell:['taking your time.'],footer:['you made it.'],repeated:['still deciding?'],project_deep:['actually reading'],github_deep:['planning an audit?'],architecture:['the diagram'],leave:['fair enough.']};
+  const messages={theme_light:['flashbang.js loaded.','sudo dim the sun.'],theme_dark:['retinas: 200 OK.','less glare. same bugs.'],projects:['projects entry'],project_linger:['generic project'],github:['evidence.'],linkedin:['professional internet'],pet_click:['combo unlocked: espresso mode.','okay, now we\'re overclocked.'],detail:['actually reading'],projects_dwell:['taking your time.'],footer:['you made it.'],repeated:['still deciding?'],project_deep:['actually reading'],github_deep:['planning an audit?'],architecture:['the diagram'],leave:['fair enough.']};
   doc.querySelector=s=>s==='.pet'?pet:{textContent:JSON.stringify(messages)};
   doc.querySelectorAll=s=>s==='[data-pet-section]'?[projects,detail,footer]:[project,github,linkedin];
   const observers=[];
@@ -106,3 +106,17 @@ for(const [mobile,limit] of [[false,6],[true,3]]) {
  h.project.fire('focus');tick(2440);assert.equal(h.pet.hidden,false);assert.equal(h.speech.textContent,'babu called this small.');h.cleanup();
 }
 console.log('Desktop/mobile dialogue caps and keyboard hover equivalent passed.');
+
+h=setup();
+h.doc.fire('portfolio:theme-change',{detail:{theme:'light'}});
+assert.equal(h.state.expression,'annoyed');
+assert.equal(h.speech.textContent,'flashbang.js loaded.');
+h.doc.fire('portfolio:theme-change',{detail:{theme:'dark'}});
+assert.equal(h.state.expression,'pleased');
+assert.equal(h.speech.textContent,'retinas: 200 OK.');
+h.doc.fire('portfolio:theme-change',{detail:{theme:'light'}});
+assert.equal(h.speech.textContent,'sudo dim the sun.','Theme jokes rotate on repeated switches');
+tick(2999);assert.equal(h.pet.classes.has('is-speaking'),true);
+tick(1);assert.equal(h.pet.classes.has('is-speaking'),false);
+h.cleanup();
+console.log('Theme reactions, immediate switching, rotating short jokes and three-second duration passed.');

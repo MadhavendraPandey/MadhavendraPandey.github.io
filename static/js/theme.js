@@ -24,6 +24,7 @@
       theme = theme === 'dark' ? 'light' : 'dark';
       applyTheme();
       updateLabel();
+      document.dispatchEvent(new CustomEvent('portfolio:theme-change', {detail: {theme}}));
       try { localStorage.setItem('portfolio-theme', theme); } catch { /* Optional persistence. */ }
     });
   });

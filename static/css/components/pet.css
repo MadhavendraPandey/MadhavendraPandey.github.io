@@ -212,3 +212,11 @@
 .pet[data-state="excited"]:hover .pet-smile,
 .pet[data-state="excited"]:focus-within .pet-smile { opacity: 0; }
 .pet.is-blinking .pet-happy-eyes, .pet.is-blinking .pet-wink { opacity: 0; }
+
+/* Theme reactions: irritated squint and a relaxed, satisfied smile. */
+.pet[data-state="annoyed"] .pet-left-eye,
+.pet[data-state="annoyed"] .pet-right-eye { transform: scaleY(.65); transform-box: fill-box; transform-origin: center; }
+.pet[data-state="annoyed"] .pet-brow { transform: rotate(8deg); transform-origin: 47px 47px; }
+.pet[data-state="annoyed"] .pet-thought-mouth { transform: rotate(-8deg); transform-origin: 47px 72px; }
+.pet[data-state="pleased"] .pet-eyes { transform: scaleY(.8); }
+.pet[data-state="pleased"] .pet-steam { opacity: .4; }

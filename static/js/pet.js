@@ -334,7 +334,7 @@ export function initPet() {
   }
   function registerPetContextElements() {
     document.querySelectorAll('[data-pet-context], a[href*="github.com"], a[href*="linkedin.com"], a[href^="mailto:"], button').forEach(element=>{
-      if(pet.contains(element)) return;
+      if(pet.contains(element) || element.matches('.theme-toggle')) return;
       const context=element.dataset.petContext || (element.href?.includes('github.com')?'github':element.href?.includes('linkedin.com')?'linkedin':element.href?.startsWith('mailto:')?'email':'button');
       on(element,'pointerenter',event=>{ if(pointer.matches && event.pointerType!=='touch') startLingerReaction(element,context); });
       on(element,'pointerleave',()=>{ if(state.linger?.element===element) cancelLingerReaction(true); });
@@ -361,7 +361,18 @@ export function initPet() {
     }
     updateDwell();
   },{threshold:[0,0.45,0.6]});
+  const themeJokeIndex = {light: 0, dark: 0};
   function registerGlobalPetEvents() {
+    on(document,'portfolio:theme-change',event=>{
+      const theme=event.detail?.theme;
+      if(theme!=='light' && theme!=='dark') return;
+      cancelLingerReaction(); markUserActivity();
+      const expression=theme==='light'?'annoyed':'pleased';
+      const lines=dialogue[`theme_${theme}`] || [];
+      const custom=lines.length?lines[themeJokeIndex[theme]++ % lines.length]:null;
+      reactToContext(`theme-${theme}`,{priority:100,direct:true,expression,action:theme==='light'?'shake':'nod'});
+      queueComment(`theme_${theme}`,{priority:100,expression,custom,valid:()=>state.context===`theme-${theme}`});
+    });
     on(document,'pointermove',event=>{
       markUserActivity();
       if(!state.visible || state.sleeping || state.drag || !pointer.matches || motion.matches || event.pointerType==='touch' || state.frame || document.hidden) return;
