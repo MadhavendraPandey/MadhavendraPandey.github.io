@@ -86,7 +86,8 @@ function rotation(x, y, z) {
 
 function projection(aspect) {
   const near = 1, far = 1500;
-  const f = 1 / Math.tan(36 * Math.PI / 360);
+  // Hold the horizontal field of view while giving taller caps vertical room.
+  const f = aspect / Math.tan(36 * Math.PI / 360);
   return new Float32Array([
     f / aspect, 0, 0, 0, 0, f, 0, 0,
     0, 0, (far + near) / (near - far), -1,
@@ -95,22 +96,24 @@ function projection(aspect) {
 }
 
 function roundedSquare(angle, half) {
-  // Superellipse gives a broad planar face with molded, continuous corners.
-  const c = Math.cos(angle), s = Math.sin(angle);
-  const power = 0.25;
-  return [half * Math.sign(c) * Math.pow(Math.abs(c), power),
-    half * Math.sign(s) * Math.pow(Math.abs(s), power)];
+  // Flat walls meet at tight molded corners, with only a small physical bevel.
+  const radius = Math.min(4, half * .06);
+  const corner = Math.floor(angle / (Math.PI / 2));
+  const centerX = (corner === 0 || corner === 3 ? 1 : -1) * (half - radius);
+  const centerZ = (corner < 2 ? 1 : -1) * (half - radius);
+  return [centerX + radius * Math.cos(angle), centerZ + radius * Math.sin(angle)];
 }
 
 function topHeight(x, z) {
-  const radius = (x ** 8 + z ** 8) ** (1 / 8);
-  return 40 + 8 * (radius / 116) ** 2;
+  const radius = Math.max(Math.abs(x), Math.abs(z));
+  return 74 + 4 * (radius / 121) ** 2;
 }
 
 const rings = [
-  [144, -58], [151, -55], [153, -49], [151, -42],
-  [135, 32], [131, 41], [125, 48], [117, 51],
-  [111, 50], [107, 47], [95, 45.4], [65, 42.5], [15, 40.1], [0, 40]
+  [150, -90], [152.5, -89.3], [153, -87], [152.7, -84.5],
+  [128, 75], [127.6, 77.5], [126.5, 79], [124.5, 80],
+  [122.5, 79.5], [121, 78],
+  ...[112, 92, 65, 30, 0].map(half => [half, topHeight(half, 0)])
 ];
 
 function halfAtHeight(y) {
@@ -120,12 +123,13 @@ function halfAtHeight(y) {
       return rings[i][0] + (rings[i + 1][0] - rings[i][0]) * t;
     }
   }
-  return 117;
+  return rings[7][0];
 }
 
 function edgeAt(center, half) {
-  const fraction = Math.min(0.999999, Math.abs(center) / half);
-  return half * Math.pow(1 - fraction ** 8, 1 / 8);
+  const radius = Math.min(4, half * .06);
+  const offset = Math.max(0, Math.min(radius, Math.abs(center) - (half - radius)));
+  return half - radius + Math.sqrt(radius ** 2 - offset ** 2);
 }
 
 function geometry(gridRows, gridColumns, position, uvRange) {
@@ -165,7 +169,7 @@ function makeBody() {
   }
   // Bottom cap closes the shell, even when the visitor turns it.
   const centerIndex = vertices.length / 3;
-  vertices.push(0, -58, 0);
+  vertices.push(0, rings[0][1], 0);
   for (let i = 0; i < segments; i++) indices.push(centerIndex, i, (i + 1) % segments);
   return {vertices, indices, uv: new Array(vertices.length / 3 * 2).fill(0)};
 }
@@ -253,11 +257,11 @@ export function initKeycapModel(scene, key) {
     const front = createMesh(gl, geometry(16, 42, (u, v) => {
       const x = (u - .5) * 230, y = -7 + (v - .5) * 60;
       return [x, y, edgeAt(x, halfAtHeight(y)) + 1];
-    }, {row: 1}), (x, y) => [x * .002, .2, 1]);
+    }, {row: 1}), () => [0, .155, 1]);
     const side = createMesh(gl, geometry(16, 42, (u, v) => {
       const z = (u - .5) * 229, y = -7 + (v - .5) * 60;
       return [-edgeAt(z, halfAtHeight(y)) - 1, y, z];
-    }, {row: 2}), (x, y, z) => [-1, .2, z * .002]);
+    }, {row: 2}), () => [-1, .155, 0]);
 
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
