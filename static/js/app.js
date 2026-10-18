@@ -1,6 +1,6 @@
 import {initLightPanels} from './light-panel.js';
 import {initScroll} from './scroll.js';
-import {initKeycap} from './keycap.js?v=15';
+import {initKeycap} from './keycap.js?v=16';
 
 initLightPanels();
 initKeycap();

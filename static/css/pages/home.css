@@ -61,6 +61,17 @@
   will-change: transform;
 }
 .keycap-face, .keycap-top { position: absolute; backface-visibility: hidden; }
+.keycap-canvas { display: none; }
+.keycap-enhanced .keycap-canvas {
+  display: block;
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  left: -60px;
+  top: 10px;
+  pointer-events: none;
+}
+.keycap-enhanced .keycap-face, .keycap-enhanced .keycap-top { display: none; }
 .keycap-face {
   left: 10px;
   top: 171px;
@@ -172,6 +183,7 @@
   .intro { grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr); column-gap: 12px; }
   .intro-copy { margin-top: 150px; }
   .keycap-object { --key-scale: 1.2; }
+  .keycap-enhanced { overflow: clip; }
 }
 @media (max-width: 900px) {
   .hero-scroll { height: calc(100svh + 288px); }

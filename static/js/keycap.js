@@ -1,3 +1,5 @@
+import {initKeycapModel} from './keycap-model.js?v=1';
+
 export function initKeycap() {
   const hero = document.querySelector('.hero-scroll');
   const intro = hero?.querySelector('.intro');
@@ -7,6 +9,7 @@ export function initKeycap() {
   const identity = hero?.querySelector('.intro-identity');
   const discipline = hero?.querySelector('.intro-discipline');
   if (!hero || !intro || !scene || !key || !greeting || !identity || !discipline) return;
+  const model = initKeycapModel(scene, key);
 
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const compact = window.matchMedia('(max-width: 900px)');
@@ -60,7 +63,9 @@ export function initKeycap() {
     const targetY = -20 + turn * 68 + (motion.matches ? 0 : pointerX);
     currentX += (targetX - currentX) * easing;
     currentY += (targetY - currentY) * easing;
-    key.style.transform = `rotateX(${currentX}deg) rotateY(${currentY}deg) rotateZ(-3deg) scale(var(--key-scale))`;
+    const enhanced = model && scene.classList.contains('keycap-enhanced');
+    key.style.transform = enhanced ? 'scale(var(--key-scale))' : `rotateX(${currentX}deg) rotateY(${currentY}deg) rotateZ(-3deg) scale(var(--key-scale))`;
+    if (enhanced) model.render(currentX, currentY, -3);
     if (Math.abs(scrollProgress - currentProgress) > .001 || Math.abs(targetX - currentX) > .05 || Math.abs(targetY - currentY) > .05) requestRender();
   };
   function requestRender() { if (!frame && !document.hidden) frame = requestAnimationFrame(render); }
