@@ -9,10 +9,14 @@ const vertexShader = `
   uniform mat4 uProjection;
   varying vec3 vNormal;
   varying vec3 vPosition;
+  varying vec3 vLocalPosition;
+  varying vec3 vLocalNormal;
   varying vec2 vUV;
   void main() {
     vec4 world = uModel * vec4(aPosition, 1.0);
     vPosition = world.xyz;
+    vLocalPosition = aPosition;
+    vLocalNormal = aNormal;
     vNormal = mat3(uModel) * aNormal;
     vUV = aUV;
     gl_Position = uProjection * uView * world;
@@ -23,18 +27,37 @@ const fragmentShader = `
   precision highp float;
   varying vec3 vNormal;
   varying vec3 vPosition;
+  varying vec3 vLocalPosition;
+  varying vec3 vLocalNormal;
   varying vec2 vUV;
   uniform sampler2D uLegends;
+  uniform sampler2D uSurface;
+  uniform mat4 uModel;
   uniform float uText;
   void main() {
-    vec3 n = normalize(vNormal);
+    // Object-space grain stays attached to the plastic as the cap turns.
+    // Mipmaps filter the fine relief at smaller screen sizes.
+    vec3 localNormal = normalize(vLocalNormal);
+    vec3 weights = pow(abs(localNormal), vec3(4.0));
+    weights /= weights.x + weights.y + weights.z;
+    vec3 gx = texture2D(uSurface, vLocalPosition.zy / 72.0).rgb;
+    vec3 gy = texture2D(uSurface, vLocalPosition.xz / 72.0).rgb;
+    vec3 gz = texture2D(uSurface, vLocalPosition.xy / 72.0).rgb;
+    vec3 relief = vec3(0.0, gx.g - .5, gx.r - .5) * weights.x
+      + vec3(gy.r - .5, 0.0, gy.g - .5) * weights.y
+      + vec3(gz.r - .5, gz.g - .5, 0.0) * weights.z;
+    float grain = dot(vec3(gx.b, gy.b, gz.b), weights);
+    vec3 n = normalize(mat3(uModel) * (localNormal + relief * .24));
     vec3 keyLight = normalize(vec3(-0.55, 0.87, 0.88));
     vec3 fillLight = normalize(vec3(0.75, 0.35, -0.40));
     float key = max(dot(n, keyLight), 0.0);
     float fill = max(dot(n, fillLight), 0.0);
     float shade = 0.70 + 0.32 * key + 0.13 * fill;
     // A little ambient occlusion at the stem-side edge gives the cap weight.
-    shade *= mix(0.82, 1.0, smoothstep(-60.0, -8.0, vPosition.y));
+    shade *= mix(0.86, 1.0, smoothstep(-78.0, -32.0, vLocalPosition.y));
+    float seam = 1.0 - smoothstep(.12, .65, abs(vLocalPosition.y + 74.4));
+    shade *= 1.0 - seam * .045 * (1.0 - abs(localNormal.y));
+    shade *= 1.0 + (grain - .5) * .075;
     if (uText > 0.5) {
       float coverage = texture2D(uLegends, vUV).a;
       if (coverage < 0.025) discard;
@@ -43,7 +66,7 @@ const fragmentShader = `
       vec3 cream = vec3(0.96, 0.945, 0.91);
       vec3 view = normalize(vec3(0.0, 0.0, 1.0) - vPosition / 600.0);
       vec3 halfVector = normalize(keyLight + view);
-      float softHighlight = pow(max(dot(n, halfVector), 0.0), 35.0) * 0.055;
+      float softHighlight = pow(max(dot(n, halfVector), 0.0), mix(24.0, 42.0, grain)) * 0.075;
       gl_FragColor = vec4(min(cream * shade + softHighlight, 1.0), 1.0);
     }
   }
@@ -98,22 +121,41 @@ function projection(aspect) {
 function roundedSquare(angle, half) {
   // Flat walls meet at tight molded corners, with only a small physical bevel.
   const radius = Math.min(4, half * .06);
-  const corner = Math.floor(angle / (Math.PI / 2));
-  const centerX = (corner === 0 || corner === 3 ? 1 : -1) * (half - radius);
-  const centerZ = (corner < 2 ? 1 : -1) * (half - radius);
-  return [centerX + radius * Math.cos(angle), centerZ + radius * Math.sin(angle)];
+  const segment = angle / (Math.PI / 4);
+  const section = Math.floor(segment);
+  const t = segment - section;
+  const flat = half - radius;
+  // Sample the straight edges too, so the finger dish has curved geometry
+  // across the whole top instead of four broad, nearly planar triangles.
+  if (section === 0) return [half, -flat + 2 * flat * t];
+  if (section === 2) return [flat - 2 * flat * t, half];
+  if (section === 4) return [-half, flat - 2 * flat * t];
+  if (section === 6) return [-flat + 2 * flat * t, -half];
+  const corner = (section - 1) / 2;
+  const arc = (corner + t) * Math.PI / 2;
+  const centerX = (corner === 0 || corner === 3 ? 1 : -1) * flat;
+  const centerZ = (corner < 2 ? 1 : -1) * flat;
+  return [centerX + radius * Math.cos(arc), centerZ + radius * Math.sin(arc)];
 }
 
 function topHeight(x, z) {
-  const radius = Math.max(Math.abs(x), Math.abs(z));
-  return 62 + 4 * (radius / 121) ** 2;
+  const u = (x / 121) ** 2, v = (z / 121) ** 2;
+  return 52 + 14 * (u + v - u * v);
+}
+
+function topNormal(x, y, z) {
+  return [-28 * x / 121 ** 2 * (1 - (z / 121) ** 2), 1,
+    -28 * z / 121 ** 2 * (1 - (x / 121) ** 2)];
 }
 
 const rings = [
   [150, -78], [152.5, -77.3], [153, -75], [152.7, -72.5],
   [128, 63], [127.6, 65.5], [126.5, 67], [124.5, 68],
   [122.5, 67.5], [121, 66],
-  ...[112, 92, 65, 30, 0].map(half => [half, topHeight(half, 0)])
+  ...Array.from({length: 16}, (_, i) => {
+    const half = 120 - i * 8;
+    return [half, topHeight(half, 0)];
+  })
 ];
 
 function halfAtHeight(y) {
@@ -153,10 +195,10 @@ function geometry(gridRows, gridColumns, position, uvRange) {
 function makeBody() {
   const segments = 256;
   const vertices = [], indices = [];
-  for (const [half, y] of rings) {
+  for (const [ring, [half, y]] of rings.entries()) {
     for (let i = 0; i < segments; i++) {
       const [x, z] = roundedSquare(i * Math.PI * 2 / segments, half);
-      vertices.push(x, y, z);
+      vertices.push(x, ring >= 9 ? topHeight(x, z) : y, z);
     }
   }
   for (let ring = 0; ring < rings.length - 1; ring++) {
@@ -193,6 +235,36 @@ function createLegendCanvas(size) {
     context.restore();
   });
   return canvas;
+}
+
+function createPlasticTexture(gl) {
+  const size = 256, heights = new Float32Array(size * size);
+  let seed = 59317;
+  for (let i = 0; i < heights.length; i++) {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    heights[i] = seed / 4294967296;
+  }
+  const pixels = new Uint8Array(size * size * 4);
+  const at = (x, y) => heights[((y + size) % size) * size + (x + size) % size];
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const i = (y * size + x) * 4;
+      pixels[i] = Math.round(128 + (at(x + 1, y) - at(x - 1, y)) * 100);
+      pixels[i + 1] = Math.round(128 + (at(x, y + 1) - at(x, y - 1)) * 100);
+      pixels[i + 2] = Math.round(at(x, y) * 255);
+      pixels[i + 3] = 255;
+    }
+  }
+  const texture = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE1);
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, size, size, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.activeTexture(gl.TEXTURE0);
 }
 
 function createMesh(gl, data, normalDirection) {
@@ -253,7 +325,7 @@ export function initKeycapModel(scene, key) {
     const top = createMesh(gl, geometry(22, 38, (u, v) => {
       const x = (u - .5) * 240, z = (.5 - v) * 68;
       return [x, topHeight(x, z) + .75, z];
-    }, {row: 0}), (x, y, z) => [-.0012 * x, 1, -.0012 * z]);
+    }, {row: 0}), topNormal);
     const front = createMesh(gl, geometry(16, 42, (u, v) => {
       const x = (u - .5) * 230, y = -7 + (v - .5) * 60;
       return [x, y, edgeAt(x, halfAtHeight(y)) + 1];
@@ -274,6 +346,7 @@ export function initKeycapModel(scene, key) {
     gl.generateMipmap(gl.TEXTURE_2D);
     const anisotropy = gl.getExtension('EXT_texture_filter_anisotropic');
     if (anisotropy) gl.texParameterf(gl.TEXTURE_2D, anisotropy.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+    createPlasticTexture(gl);
 
     const locations = {
       position: gl.getAttribLocation(program, 'aPosition'),
@@ -283,11 +356,13 @@ export function initKeycapModel(scene, key) {
       view: gl.getUniformLocation(program, 'uView'),
       projection: gl.getUniformLocation(program, 'uProjection'),
       text: gl.getUniformLocation(program, 'uText'),
-      legends: gl.getUniformLocation(program, 'uLegends')
+      legends: gl.getUniformLocation(program, 'uLegends'),
+      surface: gl.getUniformLocation(program, 'uSurface')
     };
     const view = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, -5, -680, 1]);
     gl.uniformMatrix4fv(locations.view, false, view);
     gl.uniform1i(locations.legends, 0);
+    gl.uniform1i(locations.surface, 1);
     gl.enable(gl.DEPTH_TEST);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);

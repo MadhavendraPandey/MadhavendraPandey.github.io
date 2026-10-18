@@ -1,4 +1,4 @@
-import {initKeycapModel} from './keycap-model.js?v=3';
+import {initKeycapModel} from './keycap-model.js?v=4';
 
 export function initKeycap() {
   const hero = document.querySelector('.hero-scroll');
