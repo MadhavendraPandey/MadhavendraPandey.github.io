@@ -106,13 +106,13 @@ function roundedSquare(angle, half) {
 
 function topHeight(x, z) {
   const radius = Math.max(Math.abs(x), Math.abs(z));
-  return 74 + 4 * (radius / 121) ** 2;
+  return 62 + 4 * (radius / 121) ** 2;
 }
 
 const rings = [
-  [150, -90], [152.5, -89.3], [153, -87], [152.7, -84.5],
-  [128, 75], [127.6, 77.5], [126.5, 79], [124.5, 80],
-  [122.5, 79.5], [121, 78],
+  [150, -78], [152.5, -77.3], [153, -75], [152.7, -72.5],
+  [128, 63], [127.6, 65.5], [126.5, 67], [124.5, 68],
+  [122.5, 67.5], [121, 66],
   ...[112, 92, 65, 30, 0].map(half => [half, topHeight(half, 0)])
 ];
 
@@ -257,11 +257,11 @@ export function initKeycapModel(scene, key) {
     const front = createMesh(gl, geometry(16, 42, (u, v) => {
       const x = (u - .5) * 230, y = -7 + (v - .5) * 60;
       return [x, y, edgeAt(x, halfAtHeight(y)) + 1];
-    }, {row: 1}), () => [0, .155, 1]);
+    }, {row: 1}), () => [0, .182, 1]);
     const side = createMesh(gl, geometry(16, 42, (u, v) => {
       const z = (u - .5) * 229, y = -7 + (v - .5) * 60;
       return [-edgeAt(z, halfAtHeight(y)) - 1, y, z];
-    }, {row: 2}), () => [-1, .155, 0]);
+    }, {row: 2}), () => [-1, .182, 0]);
 
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
